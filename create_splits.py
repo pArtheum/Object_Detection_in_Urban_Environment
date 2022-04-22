@@ -2,7 +2,6 @@ import argparse
 import glob
 import os
 import random
-import logging
 import numpy as np
 import shutil
 
@@ -36,7 +35,7 @@ def split(data_dir, create_test_ds=False):
             print("File already exists")
         shutil.move(t, new_path)
 
-    validation_folder_path = os.path.join(os.path.dirname(data_dir), "validation")
+    validation_folder_path = os.path.join(os.path.dirname(data_dir), "val")
     os.makedirs(validation_folder_path, exist_ok=True)
     for t in list(validation):
         new_path = os.path.join(validation_folder_path, os.path.basename(t))
