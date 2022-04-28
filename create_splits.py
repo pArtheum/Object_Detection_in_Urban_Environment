@@ -14,19 +14,21 @@ def split(data_dir, create_test_ds=False):
     args:
         - data_dir [str]: data directory, /home/workspace/data/waymo
     """
-    
-    files = [os.path.join(data_dir,f) for f in os.listdir(os.path.abspath(data_dir)) if f.endswith(".tfrecord")]
+
+    files = [os.path.join(data_dir, f) for f in os.listdir(
+        os.path.abspath(data_dir)) if f.endswith(".tfrecord")]
     if not files:
         print("No file found")
         return
-        
+
     random.shuffle(files)
 
     if create_test_ds:
-        train, validation, test = list(np.split(files, [int(len(files)*0.72), int(len(files)*0.9)]))
+        train, validation, test = list(
+            np.split(files, [int(len(files)*0.72), int(len(files)*0.9)]))
     else:
         train, validation = list(np.split(files, [int(len(files)*0.80)]))
-    
+
     train_folder_path = os.path.join(os.path.dirname(data_dir), "train")
     os.makedirs(train_folder_path, exist_ok=True)
     for t in list(train):
@@ -52,11 +54,13 @@ def split(data_dir, create_test_ds=False):
                 print("File already exists")
             shutil.move(t, new_path)
 
-if __name__ == "__main__": 
-    parser = argparse.ArgumentParser(description='Split data into training / validation / testing')
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(
+        description='Split data into training / validation / testing')
     parser.add_argument('--data_dir', required=True,
                         help='data directory')
-    parser.add_argument('--add_test_ds', required=False, default = True, nargs='?', const=True,
+    parser.add_argument('--add_test_ds', required=False, default=True, nargs='?', const=True,
                         help='Split into 3 dataset train/validation/test instead train/validation')
     args = parser.parse_args()
 
